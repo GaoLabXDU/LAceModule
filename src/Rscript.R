@@ -1,4 +1,4 @@
-setwd("D:/LAceModule")
+setwd("D:/LAceModule/LAceModule")
 # Loding Data and Codes
 source('src/function.R')
 load('data/data.RData')
@@ -61,9 +61,10 @@ evaluate(matlab,'runMultiNMF(PCC,LA,Klist,useGPU,resultpath);')
 cluster=parseResult(VC.path = resultpath,Klist = Klist)
 eva=doevaluation(cluster = cluster,simlist = list(PCC,LA),simlabel = c("PCC",'LA'),matlab = matlab)
 #### Decide Final K
-finalK=6
+finalK=7
 #### Detect LAceModule with finalK for 10 times and get the consensed module
 setVariable(matlab,finalK=finalK)
 evaluate(matlab,'finalC=repeatMultiNMF(PCC,LA,finalK,useGPU,resultpath);')
 finalC=getVariable(matlab,'finalC')$finalC # Final module
+colnames(finalC)=rownames(rna.exp)
 close(matlab)
